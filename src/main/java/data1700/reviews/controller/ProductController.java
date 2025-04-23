@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(Long id) {
+    public Optional<Product> getProductById(@PathVariable Long id) {
         return repository.getProductById(id);
     }
 

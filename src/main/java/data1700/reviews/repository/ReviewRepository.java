@@ -40,8 +40,13 @@ public class ReviewRepository {
     }
 
     public Optional<Review> getReviewById(Long id) {
-        String sql = "SELECT * FROM review WHERE id = ?";
+        String sql = "SELECT * FROM review WHERE productid = ?";
         return jdbcTemplate.query(sql,rowMapper,id).stream().findFirst();
+    }
+
+    public List<Review> getReviewsByProductId(Long id) {
+        String sql = "SELECT * FROM review WHERE productid = ?";
+        return jdbcTemplate.query(sql,rowMapper,id);
     }
 
     public int updateReview(Long id, Review review) {

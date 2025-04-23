@@ -3,7 +3,6 @@ package data1700.reviews.controller;
 import data1700.reviews.model.Review;
 import data1700.reviews.repository.ReviewRepository;
 import lombok.Getter;
-import org.springframework.boot.autoconfigure.jdbc.HikariJdbcConnectionDetailsBeanPostProcessor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +16,9 @@ import java.util.Optional;
 public class ReviewController {
 
     private final ReviewRepository repository;
-    private final HikariJdbcConnectionDetailsBeanPostProcessor jdbcConnectionDetailsHikariBeanPostProcessor;
 
-    public ReviewController(ReviewRepository repository, HikariJdbcConnectionDetailsBeanPostProcessor jdbcConnectionDetailsHikariBeanPostProcessor) {
+    public ReviewController(ReviewRepository repository) {
         this.repository = repository;
-        this.jdbcConnectionDetailsHikariBeanPostProcessor = jdbcConnectionDetailsHikariBeanPostProcessor;
     }
 
     @PostMapping
@@ -35,8 +32,13 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Review> getReviewById(Long id) {
+    public Optional<Review> getReviewById(@PathVariable Long id) {
         return repository.getReviewById(id);
+    }
+
+    @GetMapping("/product/{id}")
+    public List<Review> getReviewsByProductId(@PathVariable Long id) {
+        return repository.getReviewsByProductId(id);
     }
 
     @PutMapping
