@@ -3,6 +3,7 @@ package data1700.reviews.controller;
 import data1700.reviews.model.Review;
 import data1700.reviews.repository.ReviewRepository;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,11 @@ public class ReviewController {
     }
 
     @PostMapping
-    public void createReview(Review review) {
-        repository.createReview(review);
+    public ResponseEntity<Long> createReview(@RequestBody Review review) {
+        Long id = repository.createReview(review);
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
+
 
     @GetMapping
     public List<Review> getAllReviews() {
@@ -41,7 +44,7 @@ public class ReviewController {
         return repository.getReviewsByProductId(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateReview(
             @PathVariable Long id,
             @RequestBody Review review) {
@@ -54,7 +57,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteReview(Long id) {
+    public void deleteReview(@PathVariable Long id) {
         repository.deleteReview(id);
     }
 }

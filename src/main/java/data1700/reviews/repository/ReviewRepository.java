@@ -25,13 +25,14 @@ public class ReviewRepository {
                     rs.getInt("productid")
             );
 
-    public void createReview(Review review) {
+    public Long createReview(Review review) {
         String sql = "INSERT INTO review(review,stars,productid) VALUES(?,?,?)";
         jdbcTemplate.update(
                 sql,
                 review.getReview(),
                 review.getStars(),
                 review.getProductid());
+        return review.getReviewid();
     }
 
     public List<Review> getAllReviews() {
