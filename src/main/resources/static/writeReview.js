@@ -21,7 +21,6 @@ $(document).ready(function () {
         console.log($('#review'));
         console.log($('#review').val());
 
-        const formData = new FormData(form[0]);
         const review = {
             review: $('#review').val(),
             stars: $('#stars').val(),

@@ -33,11 +33,9 @@ public class ProductRepository {
         return jdbcTemplate.query(sql,rowMapper,id).stream().findFirst();
     }
 
-    public void createProduct(Product product) {
-        String sql = "INSERT INTO product(description) VALUES(?)";
-        jdbcTemplate.update(
-                sql,
-                product.getDescription());
+    public long createProduct(Product product) {
+        String sql = "INSERT INTO product (description) VALUES (?)";
+        return jdbcTemplate.update(sql,product.getDescription());
     }
 
     public int updateProduct(Long id, Product product) {
@@ -51,5 +49,11 @@ public class ProductRepository {
     public void deleteProduct(Long id) {
         String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql,id);
+    }
+
+    public boolean existsByDescription(String description) {
+        String sql = "SELECT COUNT(*) FROM product WHERE description = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, description);
+        return count != null && count > 0;
     }
 }

@@ -2,6 +2,7 @@ package data1700.reviews.controller;
 
 import data1700.reviews.model.Product;
 import data1700.reviews.repository.ProductRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,15 @@ public class ProductController {
     }
 
     @PostMapping
-    public void createProduct(Product product) {
-        repository.createProduct(product);
+    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+        if (repository.existsByDescription(product.getDescription())) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Product already exists");
+        }
+
+        long saved = repository.createProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping
@@ -42,7 +50,9 @@ public class ProductController {
         if (updatedRows > 0) {
             return ResponseEntity.ok("Product updated successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Product already exists");
         }
     }
 
