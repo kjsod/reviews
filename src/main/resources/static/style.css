@@ -5,3 +5,12 @@
 .clickable-row:hover {
     background-color: #f0f0f0;
 }
+
+
+.fa.fa-star {
+    color: #ddd;
+}
+
+.fa-star.checked {
+    color: orange; !important;
+}

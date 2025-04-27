@@ -43,12 +43,12 @@ public class ProductController {
         return repository.getProductById(id);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public ResponseEntity<String> updateProduct(@PathVariable Long id,
                                                 @RequestBody Product product) {
         int updatedRows = repository.updateProduct(id, product);
         if (updatedRows > 0) {
-            return ResponseEntity.ok("Product updated successfully");
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Product updated successfully");
         } else {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
@@ -57,7 +57,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(Long id) {
+    public void deleteProduct(@PathVariable Long id) {
         repository.deleteProduct(id);
     }
 }

@@ -39,7 +39,7 @@ public class ProductRepository {
     }
 
     public int updateProduct(Long id, Product product) {
-        String sql = "UPDATE product SET description = ? WHERE id = ?";
+        String sql = "UPDATE product SET description = ? WHERE productid = ?";
         return jdbcTemplate.update(
                 sql,
                 product.getDescription(),
@@ -47,7 +47,7 @@ public class ProductRepository {
     }
 
     public void deleteProduct(Long id) {
-        String sql = "DELETE FROM product WHERE id = ?";
+        String sql = "DELETE FROM product WHERE productid = ?";
         jdbcTemplate.update(sql,id);
     }
 
